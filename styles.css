@@ -75,37 +75,29 @@ body {
     max-width: 600px;
     box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
     z-index: 1000;
+    max-height: 90vh;
+    overflow-y: auto; /* Make movie details scrollable */
 }
 
-#movieDetailsModal h2 {
-    font-size: 22px;
-    margin-bottom: 8px;
-}
-
-#movieDetailsModal p {
-    font-size: 14px;
-    opacity: 0.85;
-}
-
-#movieDetailsModal ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-#movieDetailsModal iframe {
-    width: 100%;
-    height: 280px;
-    border-radius: 12px;
-}
-
+/* Close Button Fix */
 #closeModal {
     background: red;
     color: white;
     padding: 6px 12px;
     border: none;
     cursor: pointer;
-    float: right;
     font-size: 14px;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 10;
+}
+
+/* Scrollable Modal Content */
+#movieDetailsContent {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
 /* Scrollable Episode List */
@@ -170,7 +162,7 @@ body {
         gap: 10px;
         padding: 10px;
     }
-    
+
     .movie-card {
         max-width: 120px;
         padding: 5px;
@@ -192,6 +184,17 @@ body {
 
     #movieDetailsModal iframe {
         height: 200px;
+    }
+
+    /* Ensure Close Button is Visible */
+    #closeModal {
+        top: 5px;
+        right: 10px;
+    }
+
+    /* Scrollable movie details in landscape */
+    #movieDetailsContent {
+        max-height: 60vh;
     }
 }
 
@@ -234,5 +237,11 @@ body {
     .nav-buttons {
         flex-wrap: wrap;
         justify-content: center;
+    }
+
+    /* Ensure Close Button is Visible */
+    #closeModal {
+        top: 5px;
+        right: 10px;
     }
 }
