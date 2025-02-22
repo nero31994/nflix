@@ -43,7 +43,7 @@ nav button {
 }
 
 .movie-card {
-    width: 150px;
+    width: 100px;
     cursor: pointer;
     transition: transform 0.3s;
 }
@@ -53,7 +53,7 @@ nav button {
 }
 
 .movie-card img {
-    width: 100%;
+    width: 50%;
     border-radius: 5px;
 }
 
