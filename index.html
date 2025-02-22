@@ -3,22 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie & TV Show App</title>
+    <title>Movie Streaming</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
     <header>
-        <h1>Movie & TV Show App</h1>
-        <input type="text" id="search" placeholder="Search for movies or shows...">
-        <select id="genreFilter">
-            <option value="">All Genres</option>
-        </select>
+        <h1>Movie Streaming</h1>
+        <input type="text" id="searchBar" placeholder="Search...">
         <button id="topRatedBtn">Top Rated</button>
         <button id="upcomingBtn">Upcoming</button>
+        <button id="moviesBtn">Movies</button>
+        <button id="tvShowsBtn">TV Shows</button>
+        <button id="animeBtn">Anime</button>
     </header>
 
-    <main id="movie-list"></main>
-    <div id="loader">Loading...</div>
+    <div class="movie-container" id="movieContainer"></div>
+
+    <!-- Movie Modal -->
+    <div id="movieModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalOverview"></p>
+            <button id="playButton">Play Movie</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
