@@ -1,39 +1,54 @@
-const API_BASE = "https://nflix-zeta.vercel.app/api";
+const API_KEY = "488eb36776275b8ae18600751059fb49";
+const API_PROXY = "/api/proxy";
 
-// Fetch movie list
-async function fetchMovies(category = "popular") {
-    const response = await fetch(`${API_BASE}/movies?category=${category}`);
-    const data = await response.json();
-    displayMovies(data.results);
+async function fetchMovies(category) {
+    try {
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}`);
+        const data = await response.json();
+        displayMovies(data.results);
+    } catch (error) {
+        console.error("Error fetching movies:", error);
+    }
 }
 
-// Fetch movie details
-async function fetchMovieDetails(id) {
-    const response = await fetch(`${API_BASE}/movie?id=${id}`);
-    const data = await response.json();
-    
-    document.getElementById("movie-title").innerText = data.title;
-    document.getElementById("movie-overview").innerText = data.overview;
-    document.getElementById("movie-trailer").src = `https://www.youtube.com/embed/${data.videos.results[0]?.key}`;
-    
-    document.getElementById("play-button").onclick = () => playMovie(id);
-}
-
-// Play movie via proxy
-function playMovie(id) {
-    window.location.href = `${API_BASE}/proxy?id=${id}`;
-}
-
-// Display movies in the UI
 function displayMovies(movies) {
     const container = document.getElementById("movies-container");
-    container.innerHTML = movies.map(movie => `
-        <div class="movie-card" onclick="fetchMovieDetails(${movie.id})">
+    container.innerHTML = "";
+
+    movies.forEach(movie => {
+        const card = document.createElement("div");
+        card.classList.add("movie-card");
+        card.innerHTML = `
             <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
             <h3>${movie.title}</h3>
-        </div>
-    `).join("");
+        `;
+        card.onclick = () => openMovieModal(movie);
+        container.appendChild(card);
+    });
 }
 
-// Initial movie fetch
-fetchMovies();
+function openMovieModal(movie) {
+    const modal = document.getElementById("movie-modal");
+    const details = document.getElementById("movie-details");
+    const playButton = document.getElementById("play-movie");
+
+    details.innerHTML = `
+        <h2>${movie.title}</h2>
+        <p>${movie.overview}</p>
+    `;
+    
+    playButton.onclick = () => playMovie(movie.id);
+    
+    modal.style.display = "flex";
+}
+
+function playMovie(movieId) {
+    window.location.href = `${API_PROXY}?id=${movieId}`;
+}
+
+function closeModal() {
+    document.getElementById("movie-modal").style.display = "none";
+}
+
+// Fetch default movies on page load
+fetchMovies("popular");
