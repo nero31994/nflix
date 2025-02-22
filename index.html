@@ -3,32 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Streaming</title>
+    <title>Movie & TV Show App</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Netflix+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <script defer src="script.js"></script>
 </head>
 <body>
     <header>
-        
-        <input type="text" id="search-bar" placeholder="Search movies..." oninput="searchMovies()">
-        <nav>
-            <button onclick="loadCategory('popular')">Popular</button>
-            <button onclick="loadCategory('top_rated')">Top Rated</button>
-            <button onclick="loadCategory('upcoming')">Upcoming</button>
-        </nav>
+        <h1>Movie & TV Show App</h1>
+        <input type="text" id="search" placeholder="Search for movies or shows...">
+        <select id="genreFilter">
+            <option value="">All Genres</option>
+        </select>
+        <button id="topRatedBtn">Top Rated</button>
+        <button id="upcomingBtn">Upcoming</button>
     </header>
 
-    <main>
-        <div id="movies-container"></div>
-    </main>
+    <main id="movie-list"></main>
+    <div id="loader">Loading...</div>
 
-    <div id="movie-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div id="movie-details"></div>
-            <button id="play-movie">Play Movie</button>
-        </div>
-    </div>
+    <script src="script.js"></script>
 </body>
 </html>
