@@ -1,73 +1,84 @@
 body {
-    background-color: black;
-    color: white;
-    font-family: 'Netflix Sans', Arial, sans-serif;
-    text-align: center;
+    background: #000;
+    color: #fff;
+    font-family: 'Netflix Sans', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 header {
-    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.8);
 }
 
-input {
-    padding: 10px;
-    width: 80%;
-    max-width: 400px;
-    border: none;
-    border-radius: 5px;
+h1 {
+    font-size: 24px;
 }
 
-nav {
-    margin-bottom: 20px;
-}
-
-.filter {
-    background-color: red;
+nav button {
+    background: #e50914;
     color: white;
     border: none;
     padding: 10px;
-    margin: 5px;
     cursor: pointer;
 }
 
-#movie-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+#movies-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     padding: 20px;
 }
 
 .movie-card {
-    background-color: #222;
-    padding: 10px;
-    border-radius: 10px;
+    width: 200px;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s;
 }
 
 .movie-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .movie-card img {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
-.movie-details {
-    text-align: left;
-    max-width: 800px;
-    margin: auto;
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: black;
     padding: 20px;
-}
-
-.movie-details img {
-    width: 100%;
     border-radius: 10px;
+    text-align: center;
 }
 
-.video-player iframe {
-    width: 100%;
-    height: 400px;
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+#play-movie {
+    background: #e50914;
+    color: white;
     border: none;
-} 
+    padding: 10px;
+    cursor: pointer;
+}
