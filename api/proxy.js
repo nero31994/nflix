@@ -2,7 +2,7 @@ export default async function handler(req, res) {
     const { id } = req.query;
     if (!id || isNaN(id)) return res.status(400).json({ error: "Invalid Movie ID" });
 
-    const vidSrcUrl = `https://movieweb.site/player/${id}`;
+    const vidSrcUrl = `https://vidsrc.me/embed/movie/${id}`;
 
     try {
         const response = await fetch(vidSrcUrl);
@@ -12,9 +12,8 @@ export default async function handler(req, res) {
         html = html.replace(/<script[^>]*(ads|popunder|googletag|analytics|tracking)[^>]*>[\s\S]*?<\/script>/gi, "");
         html = html.replace(/window\.open/g, "console.log");
         html = html.replace(/location\.href/g, "console.log");
-
-        // Extract iframe
-        const match = html.match(/<iframe[^>]+src="([^"]+)"/);
+// Improved iframe extraction (handles different structures)
+const match = html.match(/<iframe[^>]+src=["']([^"']+)["']/);
         if (match && match[1]) {
             return res.status(200).send(`
                 <html>
