@@ -3,37 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie & TV Show Browser</title>
+    <title>Movie & TV Show Hub</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <h1>Movie & TV Show Hub</h1>
+        <input type="text" id="searchBar" placeholder="Search movies, TV shows..." />
+        <nav>
+            <button id="popularBtn">Popular</button>
+            <button id="topRatedBtn">Top Rated</button>
+            <button id="upcomingBtn">Upcoming</button>
+            <button id="tvShowsBtn">TV Shows</button>
+            <button id="animeBtn">Anime</button>
+        </nav>
+    </header>
 
-    <!-- Navigation Buttons -->
-    <div class="nav-buttons">
-        <button onclick="fetchMovies('popular')">Popular</button>
-        <button onclick="fetchMovies('top_rated')">Top Rated</button>
-        <button onclick="fetchMovies('upcoming')">Upcoming</button>
-        <button onclick="fetchMovies('tv')">TV Shows</button>
-        <button onclick="fetchMovies('anime')">Anime</button>
-    </div>
-
-    <!-- Search Bar -->
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search for movies, TV shows...">
-        <button onclick="searchMovies()">Search</button>
-    </div>
-
-    <!-- Movie List -->
-    <div id="movieContainer"></div>
+    <main id="movieContainer"></main>
 
     <!-- Movie Details Modal -->
-    <div id="movieDetailsModal">
-        <button id="closeModal" onclick="closeModal()">X</button>
-        <h2 id="movieTitle"></h2>
-        <p id="movieOverview"></p>
-        <iframe id="movieTrailer" frameborder="0" allowfullscreen></iframe>
-        <h3>Episodes</h3>
-        <div class="episode-list" id="episodeList"></div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalDescription"></p>
+            <button id="watchButton">Watch Now</button>
+            <div id="episodeList"></div>
+        </div>
     </div>
 
     <script src="script.js"></script>
