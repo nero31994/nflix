@@ -1,19 +1,26 @@
 const API_KEY = "488eb36776275b8ae18600751059fb49";
 const API_PROXY = "/api/proxy";
+let currentCategory = "popular";
+let page = 1;
+let isLoading = false;
 
-async function fetchMovies(category) {
+async function loadMovies(category, pageNum = 1) {
+    if (isLoading) return;
+    isLoading = true;
+
     try {
-        const response = await fetch(`https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}`);
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}&page=${pageNum}`);
         const data = await response.json();
         displayMovies(data.results);
     } catch (error) {
         console.error("Error fetching movies:", error);
+    } finally {
+        isLoading = false;
     }
 }
 
 function displayMovies(movies) {
     const container = document.getElementById("movies-container");
-    container.innerHTML = "";
 
     movies.forEach(movie => {
         const card = document.createElement("div");
@@ -50,5 +57,20 @@ function closeModal() {
     document.getElementById("movie-modal").style.display = "none";
 }
 
-// Fetch default movies on page load
-fetchMovies("popular");
+function loadCategory(category) {
+    currentCategory = category;
+    page = 1;
+    document.getElementById("movies-container").innerHTML = "";
+    loadMovies(category, page);
+}
+
+// ** Infinite Scroll **
+window.addEventListener("scroll", () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !isLoading) {
+        page++;
+        loadMovies(currentCategory, page);
+    }
+});
+
+// Load initial movies
+loadMovies(currentCategory, page);
