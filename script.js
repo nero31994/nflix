@@ -1,111 +1,101 @@
-const apiKey = "488eb36776275b8ae18600751059fb49"; 
-const proxyUrl = "/api/proxy"; 
+const apiKey = "488eb36776275b8ae18600751059fb49";
+const proxyUrl = "/api/proxy";
+const movieContainer = document.getElementById("movieContainer");
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modalTitle");
+const modalDescription = document.getElementById("modalDescription");
+const watchButton = document.getElementById("watchButton");
+const episodeList = document.getElementById("episodeList");
+const searchBar = document.getElementById("searchBar");
+
 let currentPage = 1;
 let currentCategory = "popular";
-let currentType = "movie";
+let currentType = "movie"; // Default to movies
 
-// Fetch Movies, TV Shows, or Anime
+// Fetch content
 async function fetchContent(category = "popular", type = "movie") {
     currentCategory = category;
     currentType = type;
-
-    let url = `https://api.themoviedb.org/3/${type}/${category}?api_key=${apiKey}&page=${currentPage}`;
-
-    if (type === "tv" && category === "anime") {
-        // Fetch only Anime (genre ID 16)
-        url = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&with_genres=16&page=${currentPage}`;
-    }
-
+    const url = `https://api.themoviedb.org/3/${type}/${category}?api_key=${apiKey}&page=${currentPage}`;
     const response = await fetch(url);
     const data = await response.json();
     displayMovies(data.results);
 }
 
-// Display Movies, TV Shows, or Anime
+// Display movies & TV shows
 function displayMovies(movies) {
-    const container = document.getElementById("movieContainer");
-    container.innerHTML = ""; // Clear previous content
-
+    if (currentPage === 1) movieContainer.innerHTML = ""; // Clear only on first load
     movies.forEach(movie => {
-        const movieCard = document.createElement("div");
-        movieCard.classList.add("movie-card");
-        movieCard.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title || movie.name}">
-            <h3>${movie.title || movie.name}</h3>
-            <button onclick="fetchMovieDetails(${movie.id}, '${currentType}')">View Details</button>
+        const card = document.createElement("div");
+        card.classList.add("movie-card");
+        card.innerHTML = `
+            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title || movie.name}" />
+            <p>${movie.title || movie.name}</p>
         `;
-        container.appendChild(movieCard);
+        card.addEventListener("click", () => openModal(movie));
+        movieContainer.appendChild(card);
     });
 }
 
-// Fetch Movie or TV Show Details
-async function fetchMovieDetails(id, type) {
-    const response = await fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${apiKey}&append_to_response=videos,credits`);
-    const data = await response.json();
+// Open Modal & Show Details
+function openModal(movie) {
+    modal.style.display = "flex";
+    modalTitle.innerText = movie.title || movie.name;
+    modalDescription.innerText = movie.overview;
+    watchButton.onclick = () => window.open(`${proxyUrl}?id=${movie.id}`, "_blank");
 
-    document.getElementById("movieTitle").innerText = data.title || data.name;
-    document.getElementById("movieOverview").innerText = data.overview;
-    document.getElementById("movieCast").innerHTML = data.credits.cast.slice(0, 5).map(actor => `<li>${actor.name}</li>`).join("");
-    
-    // Check for Trailer
-    const trailer = data.videos.results.find(video => video.type === "Trailer");
-    document.getElementById("movieTrailer").innerHTML = trailer
-        ? `<iframe src="https://www.youtube.com/embed/${trailer.key}" allowfullscreen></iframe>`
-        : "<p>No trailer available</p>";
-
-    document.getElementById("movieDetailsModal").style.display = "block";
-
-    // If TV Show, Load Episodes
-    if (type === "tv") {
-        fetchEpisodes(id);
+    if (currentType === "tv") {
+        loadEpisodes(movie.id);
+    } else {
+        episodeList.innerHTML = "";
     }
 }
 
-// Fetch Episodes for TV Shows & Anime
-async function fetchEpisodes(tvId) {
-    const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/season/1?api_key=${apiKey}`);
+// Load TV Show Episodes
+async function loadEpisodes(tvId) {
+    episodeList.innerHTML = "<h3>Episodes</h3>";
+    const url = `https://api.themoviedb.org/3/tv/${tvId}/season/1?api_key=${apiKey}`;
+    const response = await fetch(url);
     const data = await response.json();
-    displayEpisodes(data.episodes);
-}
-
-// Display Episodes (Scrollable List)
-function displayEpisodes(episodes) {
-    const episodeContainer = document.getElementById("episodeList");
-    episodeContainer.innerHTML = ""; // Clear previous episodes
-    episodeContainer.classList.add("episode-list"); // Add scrollable style
-
-    episodes.forEach(episode => {
-        const episodeItem = document.createElement("div");
-        episodeItem.classList.add("episode-item");
-        episodeItem.innerHTML = `
-            <p>Episode ${episode.episode_number}: ${episode.name}</p>
-            <button onclick="playEpisode('${episode.id}')">Watch</button>
-        `;
-        episodeContainer.appendChild(episodeItem);
+    
+    data.episodes.forEach(ep => {
+        const epBtn = document.createElement("button");
+        epBtn.innerText = `Episode ${ep.episode_number}`;
+        epBtn.onclick = () => window.open(`${proxyUrl}?id=${ep.id}`, "_blank");
+        episodeList.appendChild(epBtn);
     });
 }
 
-// Play Episode using Proxy
-function playEpisode(id) {
-    window.open(`${proxyUrl}?id=${id}`, "_blank");
-}
+// Search Function
+searchBar.addEventListener("keyup", async function () {
+    const query = searchBar.value.trim();
+    if (query.length > 2) {
+        const url = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${query}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        displayMovies(data.results);
+    }
+});
 
 // Infinite Scrolling
 window.addEventListener("scroll", () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
         currentPage++;
         fetchContent(currentCategory, currentType);
     }
 });
 
-// Button Click Events
+// Navigation Buttons
 document.getElementById("popularBtn").addEventListener("click", () => fetchContent("popular", "movie"));
 document.getElementById("topRatedBtn").addEventListener("click", () => fetchContent("top_rated", "movie"));
 document.getElementById("upcomingBtn").addEventListener("click", () => fetchContent("upcoming", "movie"));
 document.getElementById("tvShowsBtn").addEventListener("click", () => fetchContent("popular", "tv"));
-document.getElementById("animeBtn").addEventListener("click", () => fetchContent("anime", "tv"));
+document.getElementById("animeBtn").addEventListener("click", () => fetchContent("on_the_air", "tv"));
 
 // Close Modal
-document.getElementById("closeModal").addEventListener("click", () => {
-    document.getElementById("movieDetailsModal").style.display = "none";
+document.querySelector(".close").addEventListener("click", () => {
+    modal.style.display = "none";
 });
+
+// Initial Load
+fetchContent();
