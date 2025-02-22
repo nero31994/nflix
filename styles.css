@@ -7,6 +7,7 @@ body {
 
 header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
     padding: 10px;
@@ -29,13 +30,20 @@ button {
 }
 
 .movie-card {
-    width: 150px; /* Adjusted size */
+    width: 120px; /* Adjusted size */
     position: relative;
 }
 
 .movie-card img {
     width: 100%;
     border-radius: 8px;
+}
+
+.loading {
+    text-align: center;
+    color: white;
+    padding: 20px;
+    display: none;
 }
 
 .modal {
