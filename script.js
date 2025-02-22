@@ -1,4 +1,4 @@
-const API_BASE = "https://your-vercel-deployment-url/api";
+const API_BASE = "https://nflix.vercel.app/api";
 
 // Fetch movie list
 async function fetchMovies(category = "popular") {
