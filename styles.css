@@ -10,20 +10,28 @@ body {
 /* Movie Container */
 #movieContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 20px;
     padding: 20px;
     justify-content: center;
 }
 
-/* Movie Card */
+/* Movie Card with Glassmorphism */
 .movie-card {
-    background-color: #1a1a1a;
-    border-radius: 10px;
+    width: 50%;
+    max-width: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
     padding: 10px;
     text-align: center;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.3s ease-in-out;
     position: relative;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
 }
 
 .movie-card img {
@@ -33,7 +41,7 @@ body {
 }
 
 .movie-card h3 {
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 10px;
 }
 
@@ -48,10 +56,6 @@ body {
     margin-top: 8px;
 }
 
-.movie-card:hover {
-    transform: scale(1.05);
-}
-
 /* Movie Details Modal */
 #movieDetailsModal {
     display: none;
@@ -59,7 +63,8 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #121212;
+    background: rgba(18, 18, 18, 0.8);
+    backdrop-filter: blur(12px);
     padding: 20px;
     border-radius: 10px;
     width: 80%;
@@ -103,7 +108,8 @@ body {
     max-height: 300px;
     overflow-y: auto;
     padding: 10px;
-    background: #1a1a1a;
+    background: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(8px);
     border-radius: 5px;
     margin-top: 10px;
 }
@@ -113,7 +119,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 8px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .episode-item:last-child {
@@ -153,11 +159,12 @@ body {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .movie-card {
         width: 100%;
+        max-width: 150px;
     }
-    
+
     .nav-buttons {
         flex-wrap: wrap;
     }
