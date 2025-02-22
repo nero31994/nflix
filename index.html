@@ -11,10 +11,11 @@
 <body>
     <header>
         <h1>Movie Stream</h1>
+        <input type="text" id="search-bar" placeholder="Search movies..." oninput="searchMovies()">
         <nav>
-            <button onclick="fetchMovies('popular')">Popular</button>
-            <button onclick="fetchMovies('top_rated')">Top Rated</button>
-            <button onclick="fetchMovies('upcoming')">Upcoming</button>
+            <button onclick="loadCategory('popular')">Popular</button>
+            <button onclick="loadCategory('top_rated')">Top Rated</button>
+            <button onclick="loadCategory('upcoming')">Upcoming</button>
         </nav>
     </header>
 
