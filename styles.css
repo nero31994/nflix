@@ -195,17 +195,44 @@ body {
     }
 }
 
-@media (max-width: 768px) {
-    .movie-card {
-        width: 100%;
-        max-width: 140px;
+/* Portrait Mode Adjustments */
+@media (max-width: 768px) and (orientation: portrait) {
+    #movieContainer {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+        padding: 10px;
     }
 
-    .nav-buttons {
-        flex-wrap: wrap;
+    .movie-card {
+        max-width: 130px;
+        padding: 6px;
+    }
+
+    .movie-card h3 {
+        font-size: 12px;
+    }
+
+    .movie-card button {
+        font-size: 11px;
+        padding: 5px 8px;
     }
 
     #movieDetailsModal {
         width: 90%;
+        max-width: 450px;
+        padding: 15px;
+    }
+
+    #movieDetailsModal iframe {
+        height: 220px;
+    }
+
+    .episode-list {
+        max-height: 250px;
+    }
+
+    .nav-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
