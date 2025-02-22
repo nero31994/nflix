@@ -1,5 +1,3 @@
-import puppeteer from "puppeteer";
-
 export default async function handler(req, res) {
     const { id } = req.query;
 
@@ -7,29 +5,22 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: "Invalid Movie ID" });
     }
 
-    const vidSrcUrl = `https://multiembed.mov/embed/${id}`;
+    const vidSrcUrl = `https://www.2embed.stream/embed/${id}`; // 2embed source
 
     try {
-        const browser = await puppeteer.launch({ headless: "new" }); // Start browser
-        const page = await browser.newPage();
-        await page.goto(vidSrcUrl, { waitUntil: "domcontentloaded" });
-
-        // Wait for iframe to load
-        await page.waitForSelector("iframe");
-
-        // Extract iframe source
-        const embedUrl = await page.evaluate(() => {
-            const iframe = document.querySelector("iframe");
-            return iframe ? iframe.src : null;
+        const response = await fetch(vidSrcUrl, {
+            headers: { "User-Agent": "Mozilla/5.0" } // Helps bypass bot detection
         });
+        let html = await response.text();
 
-        await browser.close(); // Close browser
-
-        if (!embedUrl) {
+        // Extract iframe URL
+        const match = html.match(/<iframe[^>]+src=["']([^"']+)["']/);
+        if (!match || !match[1]) {
             return res.status(500).json({ error: "Failed to extract video player." });
         }
 
-        // Return extracted iframe
+        const embedUrl = match[1];
+
         return res.status(200).send(`
             <html>
             <head>
