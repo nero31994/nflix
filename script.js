@@ -11,6 +11,9 @@ async function loadMovies(category, pageNum = 1) {
     try {
         const response = await fetch(`https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}&page=${pageNum}`);
         const data = await response.json();
+        if (pageNum === 1) {
+            document.getElementById("movies-container").innerHTML = ""; // Clear existing movies
+        }
         displayMovies(data.results);
     } catch (error) {
         console.error("Error fetching movies:", error);
@@ -60,8 +63,22 @@ function closeModal() {
 function loadCategory(category) {
     currentCategory = category;
     page = 1;
-    document.getElementById("movies-container").innerHTML = "";
     loadMovies(category, page);
+}
+
+// ** Search Movies **
+async function searchMovies() {
+    const query = document.getElementById("search-bar").value.trim();
+    if (query.length < 3) return;
+
+    try {
+        const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`);
+        const data = await response.json();
+        document.getElementById("movies-container").innerHTML = "";
+        displayMovies(data.results);
+    } catch (error) {
+        console.error("Error searching movies:", error);
+    }
 }
 
 // ** Infinite Scroll **
