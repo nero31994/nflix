@@ -1,4 +1,4 @@
-const API_BASE = "https://nflix.vercel.app/api";
+const API_BASE = "https://nflix-zeta.vercel.app/api";
 
 // Fetch movie list
 async function fetchMovies(category = "popular") {
