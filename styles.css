@@ -193,12 +193,12 @@ body {
     }
 
     #movieDetailsModal iframe {
-        height: 200px;
+        height: 100px;
     }
 
     /* Scrollable description in landscape */
     #movieDescription {
-        max-height: 200px;
+        max-height: 100px;
     }
 
     /* Ensure Close Button is Visible */
@@ -237,7 +237,7 @@ body {
     }
 
     #movieDetailsModal iframe {
-        height: 220px;
+        height: 110px;
     }
 
     /* Scrollable description in portrait */
