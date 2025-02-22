@@ -2,7 +2,7 @@ export default async function handler(req, res) {
     const { id } = req.query;
     if (!id || isNaN(id)) return res.status(400).json({ error: "Invalid Movie ID" });
 
-    const vidSrcUrl = `https://vidsrc.me/embed/movie/${id}`;
+    const vidSrcUrl = `https://vidsrc.me/embed/${id}`;
 
     try {
         const response = await fetch(vidSrcUrl);
