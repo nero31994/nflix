@@ -1,4 +1,4 @@
-const apiKey = "YOUR_TMDB_API_KEY"; 
+const apiKey = "488eb36776275b8ae18600751059fb49"; 
 const proxyUrl = "/api/proxy"; 
 let currentPage = 1;
 let currentCategory = "popular";
