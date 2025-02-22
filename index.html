@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Streaming</title>
+    <title>Movie & TV Show Hub</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
     <header>
-        <h1>Movie Streaming</h1>
-        <input type="text" id="searchBar" placeholder="Search...">
-        <button id="topRatedBtn">Top Rated</button>
-        <button id="upcomingBtn">Upcoming</button>
-        <button id="moviesBtn">Movies</button>
-        <button id="tvShowsBtn">TV Shows</button>
-        <button id="animeBtn">Anime</button>
+        <h1>Movie & TV Show Hub</h1>
+        <input type="text" id="searchBar" placeholder="Search movies, TV shows..." />
+        <nav>
+            <button id="popularBtn">Popular</button>
+            <button id="topRatedBtn">Top Rated</button>
+            <button id="upcomingBtn">Upcoming</button>
+            <button id="tvShowsBtn">TV Shows</button>
+            <button id="animeBtn">Anime</button>
+        </nav>
     </header>
 
-    <div class="movie-container" id="movieContainer"></div>
+    <main id="movieContainer"></main>
 
-    <!-- Movie Modal -->
-    <div id="movieModal" class="modal">
+    <!-- Movie Details Modal -->
+    <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2 id="modalTitle"></h2>
-            <p id="modalOverview"></p>
-            <button id="playButton">Play Movie</button>
+            <p id="modalDescription"></p>
+            <button id="watchButton">Watch Now</button>
+            <div id="episodeList"></div>
         </div>
     </div>
 
