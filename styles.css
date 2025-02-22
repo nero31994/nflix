@@ -11,10 +11,19 @@ header {
     justify-content: space-between;
     padding: 10px 20px;
     background: rgba(0, 0, 0, 0.8);
+    align-items: center;
 }
 
 h1 {
     font-size: 24px;
+}
+
+#search-bar {
+    width: 30%;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
 }
 
 nav button {
@@ -34,7 +43,7 @@ nav button {
 }
 
 .movie-card {
-    width: 150px; /* Adjusted to 50% of original size */
+    width: 150px;
     cursor: pointer;
     transition: transform 0.3s;
 }
