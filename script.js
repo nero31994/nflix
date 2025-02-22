@@ -1,5 +1,5 @@
 const apiKey = "488eb36776275b8ae18600751059fb49";
-const apiProxy = "/api/proxy?id=";
+const apiProxy = "https://nflix-zeta.vercel.app/api/proxy?id=";
 const movieContainer = document.getElementById("movieContainer");
 const searchInput = document.getElementById("searchInput");
 let currentPage = 1;
