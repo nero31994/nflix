@@ -5,25 +5,29 @@ body {
     color: white;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Movie Container */
 #movieContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
     padding: 20px;
     justify-content: center;
+    width: 100%;
 }
 
 /* Movie Card with Glassmorphism */
 .movie-card {
-    width: 50%;
-    max-width: 200px;
+    width: 100%;
+    max-width: 160px;
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     border-radius: 15px;
-    padding: 10px;
+    padding: 8px;
     text-align: center;
     transition: transform 0.3s ease-in-out;
     position: relative;
@@ -42,18 +46,18 @@ body {
 
 .movie-card h3 {
     font-size: 14px;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .movie-card button {
     background-color: #e50914;
     color: white;
     border: none;
-    padding: 8px 12px;
+    padding: 6px 10px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     border-radius: 5px;
-    margin-top: 8px;
+    margin-top: 5px;
 }
 
 /* Movie Details Modal */
@@ -63,23 +67,24 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(18, 18, 18, 0.8);
-    backdrop-filter: blur(12px);
+    background: rgba(18, 18, 18, 0.85);
+    backdrop-filter: blur(15px);
     padding: 20px;
-    border-radius: 10px;
-    width: 80%;
+    border-radius: 12px;
+    width: 85%;
     max-width: 600px;
     box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
+    z-index: 1000;
 }
 
 #movieDetailsModal h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 22px;
+    margin-bottom: 8px;
 }
 
 #movieDetailsModal p {
     font-size: 14px;
-    opacity: 0.8;
+    opacity: 0.85;
 }
 
 #movieDetailsModal ul {
@@ -89,14 +94,14 @@ body {
 
 #movieDetailsModal iframe {
     width: 100%;
-    height: 250px;
-    border-radius: 10px;
+    height: 280px;
+    border-radius: 12px;
 }
 
 #closeModal {
     background: red;
     color: white;
-    padding: 5px 10px;
+    padding: 6px 12px;
     border: none;
     cursor: pointer;
     float: right;
@@ -108,10 +113,10 @@ body {
     max-height: 300px;
     overflow-y: auto;
     padding: 10px;
-    background: rgba(26, 26, 26, 0.7);
-    backdrop-filter: blur(8px);
-    border-radius: 5px;
-    margin-top: 10px;
+    background: rgba(26, 26, 26, 0.75);
+    backdrop-filter: blur(10px);
+    border-radius: 6px;
+    margin-top: 12px;
 }
 
 .episode-item {
@@ -159,10 +164,41 @@ body {
 }
 
 /* Responsive Adjustments */
+@media (max-width: 1024px) and (orientation: landscape) {
+    #movieContainer {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+        padding: 10px;
+    }
+    
+    .movie-card {
+        max-width: 120px;
+        padding: 5px;
+    }
+
+    .movie-card h3 {
+        font-size: 12px;
+    }
+
+    .movie-card button {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+
+    #movieDetailsModal {
+        width: 90%;
+        max-width: 500px;
+    }
+
+    #movieDetailsModal iframe {
+        height: 200px;
+    }
+}
+
 @media (max-width: 768px) {
     .movie-card {
         width: 100%;
-        max-width: 150px;
+        max-width: 140px;
     }
 
     .nav-buttons {
