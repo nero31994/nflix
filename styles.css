@@ -1,60 +1,168 @@
+/* General Styles */
 body {
-    font-family: 'Netflix Sans', sans-serif;
-    background: #000;
-    color: #fff;
+    font-family: 'Netflix Sans', Arial, sans-serif;
+    background-color: black;
+    color: white;
     margin: 0;
     padding: 0;
 }
 
-header {
-    text-align: center;
-    padding: 15px;
-    background: #111;
-}
-
-button {
-    background: red;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    margin: 5px;
-    cursor: pointer;
-}
-
+/* Movie Container */
 #movieContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
     padding: 20px;
+    justify-content: center;
 }
 
+/* Movie Card */
 .movie-card {
-    width: 180px;
-    margin: 10px;
-    cursor: pointer;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+    position: relative;
 }
 
 .movie-card img {
     width: 100%;
-    border-radius: 5px;
+    height: auto;
+    border-radius: 8px;
 }
 
-.modal {
+.movie-card h3 {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.movie-card button {
+    background-color: #e50914;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+    margin-top: 8px;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+}
+
+/* Movie Details Modal */
+#movieDetailsModal {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    justify-content: center;
-    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #121212;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
 }
 
-.modal-content {
-    background: #222;
-    padding: 20px;
+#movieDetailsModal h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#movieDetailsModal p {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+#movieDetailsModal ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#movieDetailsModal iframe {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+}
+
+#closeModal {
+    background: red;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    float: right;
+    font-size: 14px;
+}
+
+/* Scrollable Episode List */
+.episode-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    background: #1a1a1a;
     border-radius: 5px;
-    width: 80%;
-    max-width: 500px;
+    margin-top: 10px;
+}
+
+.episode-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #333;
+}
+
+.episode-item:last-child {
+    border-bottom: none;
+}
+
+.episode-item button {
+    background-color: #e50914;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+}
+
+.nav-buttons button {
+    background-color: #e50914;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.nav-buttons button:hover {
+    background-color: #b20710;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .movie-card {
+        width: 100%;
+    }
+    
+    .nav-buttons {
+        flex-wrap: wrap;
+    }
+
+    #movieDetailsModal {
+        width: 90%;
+    }
 }
