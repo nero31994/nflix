@@ -1,93 +1,89 @@
-const API_KEY = "488eb36776275b8ae18600751059fb49";
-const API_PROXY = "/api/proxy";
-let currentCategory = "popular";
-let page = 1;
-let isLoading = false;
+const apiKey = "488eb36776275b8ae18600751059fb49";
+const proxyUrl = "/api/proxy"; 
+const movieList = document.getElementById("movie-list");
+const searchInput = document.getElementById("search");
+const genreFilter = document.getElementById("genreFilter");
+const topRatedBtn = document.getElementById("topRatedBtn");
+const upcomingBtn = document.getElementById("upcomingBtn");
+let currentPage = 1;
+let genreId = "";
 
-async function loadMovies(category, pageNum = 1) {
-    if (isLoading) return;
-    isLoading = true;
-
-    try {
-        const response = await fetch(`https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}&page=${pageNum}`);
-        const data = await response.json();
-        if (pageNum === 1) {
-            document.getElementById("movies-container").innerHTML = ""; // Clear existing movies
-        }
-        displayMovies(data.results);
-    } catch (error) {
-        console.error("Error fetching movies:", error);
-    } finally {
-        isLoading = false;
-    }
-}
-
-function displayMovies(movies) {
-    const container = document.getElementById("movies-container");
-
-    movies.forEach(movie => {
-        const card = document.createElement("div");
-        card.classList.add("movie-card");
-        card.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
-            <h3>${movie.title}</h3>
-        `;
-        card.onclick = () => openMovieModal(movie);
-        container.appendChild(card);
+// Fetch Genres
+async function loadGenres() {
+    const res = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`);
+    const data = await res.json();
+    data.genres.forEach(genre => {
+        const option = document.createElement("option");
+        option.value = genre.id;
+        option.textContent = genre.name;
+        genreFilter.appendChild(option);
     });
 }
 
-function openMovieModal(movie) {
-    const modal = document.getElementById("movie-modal");
-    const details = document.getElementById("movie-details");
-    const playButton = document.getElementById("play-movie");
-
-    details.innerHTML = `
-        <h2>${movie.title}</h2>
-        <p>${movie.overview}</p>
-    `;
-    
-    playButton.onclick = () => playMovie(movie.id);
-    
-    modal.style.display = "flex";
+// Load Movies
+async function loadMovies(url) {
+    const res = await fetch(url);
+    const data = await res.json();
+    data.results.forEach(movie => {
+        const movieCard = document.createElement("div");
+        movieCard.classList.add("movie-card");
+        movieCard.innerHTML = `
+            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+            <h3>${movie.title}</h3>
+            <button onclick="playMovie(${movie.id})">Play</button>
+        `;
+        movieCard.addEventListener("click", () => loadMovieDetails(movie.id));
+        movieList.appendChild(movieCard);
+    });
 }
 
-function playMovie(movieId) {
-    window.location.href = `${API_PROXY}?id=${movieId}`;
-}
-
-function closeModal() {
-    document.getElementById("movie-modal").style.display = "none";
-}
-
-function loadCategory(category) {
-    currentCategory = category;
-    page = 1;
-    loadMovies(category, page);
-}
-
-// ** Search Movies **
-async function searchMovies() {
-    const query = document.getElementById("search-bar").value.trim();
-    if (query.length < 3) return;
-
-    try {
-        const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`);
-        const data = await response.json();
-        document.getElementById("movies-container").innerHTML = "";
-        displayMovies(data.results);
-    } catch (error) {
-        console.error("Error searching movies:", error);
-    }
-}
-
-// ** Infinite Scroll **
+// Infinite Scroll
 window.addEventListener("scroll", () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !isLoading) {
-        page++;
-        loadMovies(currentCategory, page);
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+        currentPage++;
+        loadMovies(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${currentPage}&with_genres=${genreId}`);
     }
 });
 
-// Load initial movies
-loadMovies(currentCategory, page);
+// Search Functionality
+searchInput.addEventListener("input", async () => {
+    const query = searchInput.value.trim();
+    if (query.length > 2) {
+        movieList.innerHTML = "";
+        loadMovies(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`);
+    }
+});
+
+// Filter by Genre
+genreFilter.addEventListener("change", () => {
+    genreId = genreFilter.value;
+    movieList.innerHTML = "";
+    loadMovies(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genreId}`);
+});
+
+// Top Rated & Upcoming Buttons
+topRatedBtn.addEventListener("click", () => {
+    movieList.innerHTML = "";
+    loadMovies(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`);
+});
+
+upcomingBtn.addEventListener("click", () => {
+    movieList.innerHTML = "";
+    loadMovies(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}`);
+});
+
+// Movie Details Page
+async function loadMovieDetails(movieId) {
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`);
+    const movie = await res.json();
+    alert(`Title: ${movie.title}\nOverview: ${movie.overview}\nRelease Date: ${movie.release_date}`);
+}
+
+// Play Movie using Proxy
+function playMovie(movieId) {
+    window.location.href = `${proxyUrl}?id=${movieId}`;
+}
+
+// Initial Load
+loadGenres();
+loadMovies(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`);
